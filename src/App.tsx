@@ -1,10 +1,15 @@
 import { BookList } from './components/BookList';
-import { exampleBooks } from './domain/book';
+import { Book, exampleBooks } from './domain/book';
 
 export const App: React.FC = () => {
   return (
-    <div>
-      <BookList books={exampleBooks} />
+    <div style={{ marginTop: 50 }}>
+      <BookList
+        books={exampleBooks}
+        onBookSelected={(book: Book) => {
+          alert(`"${book.title}" costs ${book.price}`);
+        }}
+      />
     </div>
   );
 };
