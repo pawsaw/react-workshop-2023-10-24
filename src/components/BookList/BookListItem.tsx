@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Book } from '../../domain/book';
+import { Hidable } from '../Hidable';
 
 export interface BookListItemProps {
   book: Book;
@@ -21,6 +22,9 @@ export const BookListItem: React.FC<BookListItemProps> = ({ book, onBookTitleCli
         👏 {numLikes}
       </button>
       <div>{book.subtitle}</div>
+      <Hidable>
+        <p>{book.abstract}</p>
+      </Hidable>
     </div>
   );
 };
