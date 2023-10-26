@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Book } from '../../../domain/book';
 import { Hidable } from '../../../components/Hidable';
 import { useTheme } from '../../../domain/theme';
@@ -7,12 +7,25 @@ import { Link } from 'react-router-dom';
 export interface BookListItemProps {
   book: Book;
   onBookTitleClicked: (book: Book) => void;
+  onBookDetailsClicked: (book: Book) => void;
 }
 
-export const BookListItem: React.FC<BookListItemProps> = ({ book, onBookTitleClicked }) => {
+export const BookListItem: React.FC<BookListItemProps> = ({
+  book,
+  onBookTitleClicked,
+  onBookDetailsClicked,
+}) => {
   const [numLikes, setNumLikes] = useState(0);
 
   const { primaryColor } = useTheme();
+
+  const onClick: React.MouseEventHandler<HTMLAnchorElement> = useCallback(
+    (event) => {
+      event.preventDefault();
+      onBookDetailsClicked(book);
+    },
+    [book, onBookDetailsClicked],
+  );
 
   const isFree = book.price === '$0.00';
   return (
@@ -29,7 +42,9 @@ export const BookListItem: React.FC<BookListItemProps> = ({ book, onBookTitleCli
       <Hidable>
         <p>{book.abstract}</p>
       </Hidable>
-      <Link to={book.isbn}>Details</Link>
+      <a href="books" onClick={onClick}>
+        Details
+      </a>
     </div>
   );
 };
