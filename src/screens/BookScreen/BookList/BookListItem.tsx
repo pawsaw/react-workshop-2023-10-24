@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Book } from '../../../domain/book';
 import { Hidable } from '../../../components/Hidable';
 import { useTheme } from '../../../domain/theme';
+import { Link } from 'react-router-dom';
 
 export interface BookListItemProps {
   book: Book;
@@ -28,6 +29,7 @@ export const BookListItem: React.FC<BookListItemProps> = ({ book, onBookTitleCli
       <Hidable>
         <p>{book.abstract}</p>
       </Hidable>
+      <Link to={book.isbn}>Details</Link>
     </div>
   );
 };
