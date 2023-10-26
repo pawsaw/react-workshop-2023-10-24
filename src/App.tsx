@@ -1,23 +1,23 @@
-import { useEffect, useState } from 'react';
-import { BookList } from './components/BookList';
-import { Book, fetchBooks } from './domain/book';
+import { useCallback } from 'react';
+import { BookList, BookListProps } from './components/BookList';
+import { Book, useBooks } from './domain/book';
 
 export const App: React.FC = () => {
-  const [books, setBooks] = useState<Book[] | null>(null);
+  const { books, reload } = useBooks();
 
-  useEffect(() => {
-    fetchBooks().then((_books) => setBooks(_books));
+  const onBookSelected: BookListProps['onBookSelected'] = useCallback((book: Book) => {
+    alert(`"${book.title}" costs ${book.price}`);
   }, []);
 
   return (
     <div style={{ marginTop: 50 }}>
       {books ? (
-        <BookList
-          books={books}
-          onBookSelected={(book: Book) => {
-            alert(`"${book.title}" costs ${book.price}`);
-          }}
-        />
+        <>
+          <button onClick={reload} className="secondary">
+            reload
+          </button>
+          <BookList books={books} onBookSelected={onBookSelected} />
+        </>
       ) : (
         <span>Loading...</span>
       )}
